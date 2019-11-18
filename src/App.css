@@ -79,7 +79,7 @@ main {
   top: 0;
   right: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .cover img {
@@ -89,7 +89,7 @@ main {
 
 .controls {
   visibility: hidden;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
   padding: 0.5rem;
   position: absolute;
   bottom: 0;

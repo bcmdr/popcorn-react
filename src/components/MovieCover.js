@@ -10,37 +10,44 @@ function isEmpty(obj) {
 
 function MovieCover({user, db, result, initialStatuses}) {
 
-  const [statuses, setStatuses] = useState(initialStatuses || {});
+  const [statuses, setStatuses] = useState(initialStatuses || {
+    interested: false,
+    seen: false,
+    favourite: false
+  });
 
   const handleInterested = () => {
     setStatuses({
-      interested: !statuses.interested,
-      ...statuses
+      ...statuses,
+      interested: !statuses.interested
     })
+    console.log(statuses)
   }
 
   const handleSeen = () => {
     setStatuses({
+      ...statuses,
       seen: !statuses.seen,
-      ...statuses
     })
   }
 
   const handleFavourite = () => {
     setStatuses({
+      ...statuses,
       favourite: !statuses.favourite,
-      ...statuses
     })
   }
 
   useEffect(() => {
     async function updateStatuses() {
+      console.log('updating statuses...')
       if (!user) return;
       if (isEmpty(statuses)) return;
       let movieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
       movieRef.set({
         ...statuses
       }, {merge: true});
+      setStatuses(statuses);
     }
     updateStatuses();
   }, [statuses, user, result, db])
