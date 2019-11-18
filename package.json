@@ -13,11 +13,16 @@
     "react-scripts": "3.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm-run-all --parallel start:app start:server",
+    "start:app": "react-scripts start",
+    "start:server": "netlify-lambda serve ./functions",
+    "build": "npm-run-all --parallel build:**",
+    "build:app": "react-scripts build",
+    "build:functions": "netlify-lambda build .netlify/functions",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:9000/",
   "eslintConfig": {
     "extends": "react-app"
   },

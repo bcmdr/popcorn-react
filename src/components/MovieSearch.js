@@ -17,7 +17,7 @@ const MovieSearch = ({setMovieListSource}) => {
     // const config = await configResponse.json();
     
     const resultsResponse = await fetch(`.netlify/functions/tmdbSearch.js&query=${searchValue}`);
-    const results = await resultsResponse.json();
+    const results = await resultsResponse.text();
 
     console.log(results)
 
