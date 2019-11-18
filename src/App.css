@@ -1,14 +1,19 @@
+:root {
+  --shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+}
 
 body {
   margin: 0;
-  font-size: 16px;
+  padding: 0;
+  font-family: sans-serif;
 }
 
 header {
-  padding: 0.5rem;
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 1rem;
 }
 
 header nav ul {
@@ -20,4 +25,104 @@ header nav li {
   display: inline-block;
   list-style: none;
   margin: 0px 0.25rem;
+}
+
+header nav a {
+  text-decoration: none;
+  color: inherit;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.search input {
+  font-size: 0.75 rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 3px 0 0 3px;
+}
+
+.search input[type="submit"] {
+  padding: 0.5rem 1rem;
+  border: 1px solid black;
+  border-radius: 0 3px 3px 0;
+}
+
+main {
+  padding: 1rem;
+  flex-grow: 1;
+}
+
+.covers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 0.75rem;
+}
+
+.cover {
+  position: relative;
+  display: flex;
+  background: #111;
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+}
+
+.cover .title {
+  font-size: 1rem;
+  visibility: hidden;
+  font-weight: normal;
+  color: white;
+  margin: 0;
+  padding: 0.75rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.cover img {
+  width: 100%;
+  border-radius: 3px;
+}
+
+.controls {
+  visibility: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.cover:hover .controls, .cover:hover .title {
+  visibility: visible;
+}
+
+.controls button[data-val="true"] {
+  background: white;
+  color: black;
+}
+
+.controls button {
+  font-size: 0.75rem;
+  flex-grow: 1;
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  background: none;
+  margin: 0.25rem;
+}
+
+footer {
+  padding: 0.5rem;
 }

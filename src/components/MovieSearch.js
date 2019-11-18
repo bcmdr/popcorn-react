@@ -18,15 +18,15 @@ const MovieSearch = ({setMovieListSource}) => {
     const results = await resultsResponse.json();
 
     console.log(results)
+    setMovieListSource(results.results)
 
-    setMovieListSource(results)
     } catch (error) {
       console.log(error);
     }
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="search">
       <label htmlFor="searchInput" hidden>Search</label>
       <input id="searchInput" type="text" value={searchValue} onChange={handleInputChange}></input>
       <input type="submit" value="search"></input>
@@ -34,4 +34,4 @@ const MovieSearch = ({setMovieListSource}) => {
   )
 }
 
-export default MovieSearch
+export default MovieSearch;

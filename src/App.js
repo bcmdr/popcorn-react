@@ -6,6 +6,7 @@ import 'firebase/firestore';
 import firebaseConfig from './config/firebaseConfig'
 
 import MovieSearch from './components/MovieSearch'
+import MovieCover from './components/MovieCover'
 
 import 'normalize.css'
 import './App.css';
@@ -13,17 +14,33 @@ import './App.css';
 function App() {
   const [user, setUser] = useState(null);
   const [movieListSource, setMovieListSource] = useState(null);
+  const [db, setDb] = useState(null);
+  const [userStatuses, setUserStatuses] = useState(null);
 
   useEffect(()=>{
+    async function fetchUserStatuses() {
+      const userRef = user && db.collection(`${user.uid}`);
+      if (userRef) {
+        let userStatuses = {};
+        const snap = await userRef.get();
+        snap && snap.forEach(result => userStatuses[result.id] = result.data());
+        setUserStatuses(userStatuses)
+      }
+    }
+
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
 
     firebase.auth().onAuthStateChanged(function(user) {
       setUser(user);
-      console.log(user);
     });
-  });
+
+    setDb(firebase.firestore());
+
+    fetchUserStatuses();
+
+  }, [setDb, db, user]);
 
   const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -45,16 +62,24 @@ function App() {
           <li><a href="/">Seen</a></li>
           <li><a href="/">Favourite</a></li>
         </nav>
-        <div className="controls">
+        <MovieSearch setMovieListSource={setMovieListSource}/>
+        <div className="login">
           { user ? 
             <button onClick={handleLogout}>Logout</button> :
             <button onClick={handleLogin}>Login</button>
           }
         </div>
-        <MovieSearch setMovieListSource={setMovieListSource}/>
       </header>
-      <main>
-        {JSON.stringify(movieListSource)}
+      <main className="covers">
+        {movieListSource && movieListSource.map((result, index) => (
+          <MovieCover 
+            key={index}
+            user={user}
+            result={result}
+            db={db}
+            initialStatuses={userStatuses[result.id]}
+          />
+        ))}
       </main>
     </Fragment>
   );
