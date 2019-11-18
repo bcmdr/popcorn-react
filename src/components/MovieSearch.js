@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 const MovieSearch = ({setMovieListSource}) => {
   const [searchValue, setSearchValue] = useState('');
-  const movieDbApiKey = process.env.movieDbApiKey
+  const movieDbApiRootUrl = 'https://api.themoviedb.org/3'
+  const movieDbApiKey = process.env.movieDbApiKey; // Here we hide value in environment
 
   const handleInputChange = (event) => {
     setSearchValue(event.target.value);
@@ -15,7 +16,8 @@ const MovieSearch = ({setMovieListSource}) => {
     // const configResponse = await fetch(`https://api.themoviedb.org/3/configuration?api_key=${tmdb.key}`)
     // const config = await configResponse.json();
     
-    const resultsResponse = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${movieDbApiKey}&query=${searchValue}&page=1`);
+    // const resultsResponse = await fetch(`.netlify/functions/tmdbSearch.js&query=${searchValue}&page=1`);
+    const resultsResponse = await fetch(`${movieDbApiRootUrl}/search/movie/?api_key=${movieDbApiKey}&query=${searchValue}&page=1`, { 'content-type': 'application/json' })  
     const results = await resultsResponse.json();
 
     console.log(results)
