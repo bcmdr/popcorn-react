@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
+function isEmpty(obj) {
+  for(var key in obj) {
+      if(obj.hasOwnProperty(key))
+          return false;
+  }
+  return true;
+}
+
 function MovieCover({user, db, result, initialStatuses}) {
 
   const [statuses, setStatuses] = useState(initialStatuses || {});
@@ -28,7 +36,7 @@ function MovieCover({user, db, result, initialStatuses}) {
   useEffect(() => {
     async function updateStatuses() {
       if (!user) return;
-      if (!statuses) return;
+      if (isEmpty(statuses)) return;
       let movieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
       movieRef.set({
         ...statuses

@@ -15,7 +15,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [movieListSource, setMovieListSource] = useState(null);
   const [db, setDb] = useState(null);
-  const [userStatuses, setUserStatuses] = useState(null);
+  const [userStatuses, setUserStatuses] = useState({});
 
   useEffect(()=>{
     async function fetchUserStatuses() {
