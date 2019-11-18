@@ -52,8 +52,10 @@ function App() {
           }
         </div>
         <MovieSearch setMovieListSource={setMovieListSource}/>
-        {JSON.stringify(movieListSource)}
       </header>
+      <main>
+        {JSON.stringify(movieListSource)}
+      </main>
     </Fragment>
   );
 }
