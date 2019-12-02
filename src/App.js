@@ -16,6 +16,7 @@ function App() {
   const [movieListSource, setMovieListSource] = useState(null);
   const [db, setDb] = useState(null);
   const [userStatuses, setUserStatuses] = useState({});
+  const [statusFilter, setStatusFilter] = null;
 
   const fetchUserStatuses = useCallback(async () => {
     const userRef = user && db.collection(`${user.uid}`);
@@ -55,6 +56,10 @@ function App() {
 
   const show = async (event, status) => {
     event.preventDefault();
+
+    if (statusFilter === status) return;
+    setStatusFilter(status)
+
     let results = []
     const userRef = user && db.collection(`${user.uid}`);
     if (!userRef) return 
