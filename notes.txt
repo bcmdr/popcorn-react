@@ -1,0 +1,7 @@
+
+set database security rules 
+ensure users can only access own values
+
+have main logo link to listing all entries in local db (user db)
+
+quota exceeded, need a caching strategy because flipping between navigation tabs makes a google request every time (in show method)

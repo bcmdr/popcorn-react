@@ -8,7 +8,7 @@ function MovieCover({user, db, result, initialStatuses}) {
 
   const handleStatus = (status) => {
     let newStatuses = {...statuses};
-    newStatuses[status] = !statuses[status];
+    newStatuses[status] = statuses ? !statuses[status] : true;
     setStatuses(newStatuses);
     setInteracted(true);
   };
