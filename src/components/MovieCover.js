@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 function MovieCover({user, db, result, initialStatuses}) {
 
@@ -11,31 +11,35 @@ function MovieCover({user, db, result, initialStatuses}) {
     newStatuses[status] = !statuses[status];
     setStatuses(newStatuses);
     setInteracted(true);
-  }
+  };
   
-  const saveMovie = function () {
+  const saveMovie = useCallback(() => {
     if (movieSaved) return;
     let movieInfoRef = db.collection('movies').doc(`${result.id}`);
     if (!movieInfoRef.exists) movieInfoRef.set(result);
     setMovieSaved(true);
-  }
+  }, [db, movieSaved, result]);
+
+  const updateStatuses = useCallback(async () => {
+    if (!user) return;
+    if (!interacted) return; 
+
+    let userMovieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
+    userMovieRef.set({
+      ...statuses
+    }, {merge: true});
+
+    setInteracted(false);  
+  }, [user, interacted, db, result, statuses]);
 
   useEffect(() => {
-    async function updateStatuses() {
-      if (!user) return;
 
-      if (interacted) {
-        // saveMovie();
-
-        let userMovieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
-        userMovieRef.set({
-          ...statuses
-        }, {merge: true});
-        setInteracted(false);
-      }
+    if (interacted) {
+      saveMovie();
+      updateStatuses();
     }
-    updateStatuses();
-  }, [statuses, user, result, db, interacted, saveMovie])
+
+  }, [statuses, user, result, db, interacted, saveMovie, updateStatuses]);
 
 
   return (

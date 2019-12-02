@@ -8,7 +8,10 @@ exports.handler = async (event, context) => {
   const { httpMethod, queryStringParameters } = event;
   
   if (httpMethod === 'GET') {
-    const response = await fetch(`${movieDbApiRootUrl}/search/movie/?api_key=${movieDbApiKey}&query=${queryStringParameters.query}&page=1`, { 'content-type': 'application/json' })  
+    const response = await fetch(
+      `${movieDbApiRootUrl}/search/movie/?api_key=${movieDbApiKey}&query=${queryStringParameters.query}&include_adult=false&page=1`, 
+      { 'content-type': 'application/json' }
+    )  
     const movieData = await response.text();
 
     return { statusCode: 200, body: movieData };

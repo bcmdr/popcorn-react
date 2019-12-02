@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect, useCallback} from 'react';
 
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -17,20 +17,20 @@ function App() {
   const [db, setDb] = useState(null);
   const [userStatuses, setUserStatuses] = useState({});
 
-  useEffect(()=>{
-
-    async function fetchUserStatuses() {
-      const userRef = user && db.collection(`${user.uid}`);
-      if (userRef) {
-        let userStatuses = {};
-        const snap = await userRef.get();
-        snap && snap.forEach(result => {
-          userStatuses[result.id] = result.data()
-        });
-        setUserStatuses(userStatuses)
-      }
+  const fetchUserStatuses = useCallback(async () => {
+    const userRef = user && db.collection(`${user.uid}`);
+    if (userRef) {
+      let userStatuses = {};
+      const snap = await userRef.get();
+      snap && snap.forEach(result => {
+        userStatuses[result.id] = result.data();
+      });
+      setUserStatuses(userStatuses);
     }
-    
+  }, [db, user])
+
+  useEffect(() => {
+
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
@@ -43,7 +43,7 @@ function App() {
 
     fetchUserStatuses();
 
-  }, [setDb, db, user, movieListSource]);
+  }, [setDb, db, user, movieListSource, fetchUserStatuses]);
 
   const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
