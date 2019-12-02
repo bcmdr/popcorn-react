@@ -27,14 +27,20 @@ header nav li {
   margin: 0px 0.25rem;
 }
 
-header nav a {
+header a {
   text-decoration: none;
   color: inherit;
 }
 
-nav a:hover {
+nav li span {
+  cursor: pointer
+}
+
+nav a:hover, nav li span:hover {
   text-decoration: underline;
 }
+
+
 
 .search input {
   font-size: 0.75 rem;

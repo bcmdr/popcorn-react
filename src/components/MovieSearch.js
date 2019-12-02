@@ -13,7 +13,6 @@ const MovieSearch = ({setMovieListSource}) => {
     try {
     // const configResponse = await fetch(`https://api.themoviedb.org/3/configuration?api_key=${tmdb.key}`)
     // const config = await configResponse.json();
-    
     const resultsResponse = await fetch(`.netlify/functions/tmdbSearch?query=${searchValue}`);
     const results = await resultsResponse.json();
 

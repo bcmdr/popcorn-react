@@ -1,56 +1,41 @@
 import React, { useState, useEffect } from 'react';
 
-function isEmpty(obj) {
-  for(var key in obj) {
-      if(obj.hasOwnProperty(key))
-          return false;
-  }
-  return true;
-}
-
 function MovieCover({user, db, result, initialStatuses}) {
 
-  const [statuses, setStatuses] = useState(initialStatuses || {
-    interested: false,
-    seen: false,
-    favourite: false
-  });
+  const [statuses, setStatuses] = useState(initialStatuses);
+  const [interacted, setInteracted] = useState(false);
+  const [movieSaved, setMovieSaved] = useState(false);
 
-  const handleInterested = () => {
-    setStatuses({
-      ...statuses,
-      interested: !statuses.interested
-    })
-    console.log(statuses)
+  const handleStatus = (status) => {
+    let newStatuses = {...statuses};
+    newStatuses[status] = !statuses[status];
+    setStatuses(newStatuses);
+    setInteracted(true);
   }
-
-  const handleSeen = () => {
-    setStatuses({
-      ...statuses,
-      seen: !statuses.seen,
-    })
-  }
-
-  const handleFavourite = () => {
-    setStatuses({
-      ...statuses,
-      favourite: !statuses.favourite,
-    })
+  
+  const saveMovie = function () {
+    if (movieSaved) return;
+    let movieInfoRef = db.collection('movies').doc(`${result.id}`);
+    if (!movieInfoRef.exists) movieInfoRef.set(result);
+    setMovieSaved(true);
   }
 
   useEffect(() => {
     async function updateStatuses() {
-      console.log('updating statuses...')
       if (!user) return;
-      if (isEmpty(statuses)) return;
-      let movieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
-      movieRef.set({
-        ...statuses
-      }, {merge: true});
-      setStatuses(statuses);
+
+      if (interacted) {
+        // saveMovie();
+
+        let userMovieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
+        userMovieRef.set({
+          ...statuses
+        }, {merge: true});
+        setInteracted(false);
+      }
     }
     updateStatuses();
-  }, [statuses, user, result, db])
+  }, [statuses, user, result, db, interacted, saveMovie])
 
 
   return (
@@ -62,9 +47,9 @@ function MovieCover({user, db, result, initialStatuses}) {
       ) : null}
       { user ? (
         <div className="controls">
-          <button data-val={statuses.interested} onClick={handleInterested}>Interested</button>
-          <button data-val={statuses.seen} onClick={handleSeen}>Seen</button>
-          <button data-val={statuses.favourite} onClick={handleFavourite}>Favourite</button>
+          <button data-val={statuses && statuses.interested} onClick={() => handleStatus('interested')}>Interested</button>
+          <button data-val={statuses && statuses.seen} onClick={() => handleStatus('seen')}>Seen</button>
+          <button data-val={statuses && statuses.favourite} onClick={() => handleStatus('favourite')}>Favourite</button>
         </div>
         ) : null
       }

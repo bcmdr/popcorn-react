@@ -18,16 +18,19 @@ function App() {
   const [userStatuses, setUserStatuses] = useState({});
 
   useEffect(()=>{
+
     async function fetchUserStatuses() {
       const userRef = user && db.collection(`${user.uid}`);
       if (userRef) {
         let userStatuses = {};
         const snap = await userRef.get();
-        snap && snap.forEach(result => userStatuses[result.id] = result.data());
+        snap && snap.forEach(result => {
+          userStatuses[result.id] = result.data()
+        });
         setUserStatuses(userStatuses)
       }
     }
-
+    
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
@@ -40,7 +43,7 @@ function App() {
 
     fetchUserStatuses();
 
-  }, [setDb, db, user]);
+  }, [setDb, db, user, movieListSource]);
 
   const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -50,17 +53,30 @@ function App() {
     firebase.auth().signOut();
   }
 
+  const show = async (event, status) => {
+    event.preventDefault();
+    let results = []
+    const userRef = user && db.collection(`${user.uid}`);
+    if (!userRef) return 
+    const snap = await userRef.get();
+    snap && snap.forEach(async result => {
+      if (result.data()[status]) {
+        const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
+        const movieDoc = await movieInfoRef.get();
+        movieDoc.exists && results.push(movieDoc.data());
+        setMovieListSource(results);
+      }});
+  }
+
 
   return (
     <Fragment>
       <header>
-        <div className="branding">
-          <a href="/">PopCorn</a>
-        </div>
         <nav>
-          <li><a href="/">Interested</a></li>
-          <li><a href="/">Seen</a></li>
-          <li><a href="/">Favourite</a></li>
+          <li><a href="/">PopCorn</a></li>
+          <li><span onClick={(event) => show(event, 'interested')}>Interested</span></li>
+          <li><span onClick={(event) => show(event, 'seen')}>Seen</span></li>
+          <li><span onClick={(event) => show(event, 'favourite')}>Favourite</span></li>
         </nav>
         <MovieSearch setMovieListSource={setMovieListSource}/>
         <div className="login">
@@ -73,7 +89,7 @@ function App() {
       <main className="covers">
         {movieListSource && movieListSource.map((result, index) => (
           <MovieCover 
-            key={index}
+            key={result.id}
             user={user}
             result={result}
             db={db}
