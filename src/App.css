@@ -37,10 +37,6 @@ header a {
   color: inherit;
 }
 
-nav {
-  overflow: scroll;
-}
-
 nav[data-active="anyStatus"] li.anyStatus-link, 
 nav[data-active="interested"] li.interested-link,
 nav[data-active="favourite"] li.favourite-link,
@@ -72,6 +68,7 @@ nav a:hover, nav li span:hover {
   margin-bottom: 1rem;
   flex-grow: 1;
   text-align: right;
+  display: flex;
 }
 
 .search input {
@@ -79,7 +76,6 @@ nav a:hover, nav li span:hover {
   padding: 0.5rem 0.5rem;
   border: 1px solid black;
   border-radius: 3px 0 0 3px;
-  width: auto;
 }
 
 .search input[type="submit"] {
@@ -88,7 +84,6 @@ nav a:hover, nav li span:hover {
   padding: 0.5rem 1rem;
   border: 1px solid black;
   border-radius: 0 3px 3px 0;
-  width: auto;
 }
 
 main {
@@ -103,6 +98,7 @@ main {
 }
 
 .cover {
+  flex-grow: 1;
   position: relative;
   display: flex;
   background: #111;
@@ -125,8 +121,10 @@ main {
 }
 
 .cover img {
-  width: 100%;
   border-radius: 3px;
+  width: 100%;
+  align-self: start;
+  justify-self: start;
 }
 
 .controls {
