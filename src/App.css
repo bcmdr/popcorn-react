@@ -44,9 +44,15 @@ nav[data-active="seen"] li.seen-link {
   font-weight: bold;
 }
 
+nav li:first-child {
+  border-right: 1px solid black;
+  padding-right: 0.5rem;
+}
+
 
 nav li:last-child {
   border-left: 1px solid black;
+  padding-left: 0.5rem;
 }
 
 nav li span {
