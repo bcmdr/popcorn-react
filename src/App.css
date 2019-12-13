@@ -64,11 +64,10 @@ nav a:hover, nav li span:hover {
 }
 
 .search {
-  margin-right: 1rem;
   margin-bottom: 1rem;
-  flex-grow: 1;
-  text-align: right;
   display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
 }
 
 .search input {
@@ -95,10 +94,10 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-gap: 0.75rem;
+  padding-top: 0;
 }
 
 .cover {
-  flex-grow: 1;
   position: relative;
   display: flex;
   background: #111;
