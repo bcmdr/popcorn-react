@@ -23,6 +23,7 @@ function App() {
 
   const handleLogout = () => {
     firebase.auth().signOut();
+    setMovieListSource(null);
   };
 
   const filterByStatus = useCallback(
@@ -91,19 +92,23 @@ function App() {
           <li className="anyStatus-link">
             <a href="/">PopCorn</a>
           </li>
-          <li className="interested-link">
-            <span onClick={event => filterByStatus(event, "interested")}>
-              Interested
-            </span>
-          </li>
-          <li className="seen-link">
-            <span onClick={event => filterByStatus(event, "seen")}>Seen</span>
-          </li>
-          <li className="favourite-link">
-            <span onClick={event => filterByStatus(event, "favourite")}>
-              Favourite
-            </span>
-          </li>
+          {user && 
+            <>
+              <li className="interested-link">
+                <span onClick={event => filterByStatus(event, "interested")}>
+                  Interested
+                </span>
+              </li>
+              <li className="seen-link">
+                <span onClick={event => filterByStatus(event, "seen")}>Seen</span>
+              </li>
+              <li className="favourite-link">
+                <span onClick={event => filterByStatus(event, "favourite")}>
+                  Favourite
+                </span>
+              </li>
+            </>
+          }
           <li>
             <div className="login">
               {user ? (
@@ -116,16 +121,26 @@ function App() {
         </nav>
         <MovieSearch setMovieListSource={setMovieListSource} />
       </header>
-      <main className="covers">
+      <main>
+        {!user && !movieListSource &&
+          <section className="welcome">
+            <h1>Track Your Movies</h1>
+            <p>Interested • Seen • Favourite</p>
+            <button className="primary-button" onClick={handleLogin}>Login with Google</button>
+          </section>
+        }
         {movieListSource &&
-          movieListSource.map(result => (
-            <MovieCover
-              key={result.id}
-              user={user}
-              result={result}
-              initialStatuses={userStatuses[result.id]}
-            />
-          ))}
+          <section className="covers">
+            {movieListSource.map(result => (
+              <MovieCover
+                key={result.id}
+                user={user}
+                result={result}
+                initialStatuses={userStatuses[result.id]}
+              />
+            ))}
+          </section>
+        }
       </main>
     </Fragment>
   );
