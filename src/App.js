@@ -107,9 +107,9 @@ function App() {
           <li>
             <div className="login">
               {user ? (
-                <button onClick={handleLogout}>Logout</button>
+                <span onClick={handleLogout}>Logout</span>
               ) : (
-                <button onClick={handleLogin}>Login</button>
+                <span onClick={handleLogin}>Login</span>
               )}
             </div>
           </li>

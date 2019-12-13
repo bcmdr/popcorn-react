@@ -70,6 +70,8 @@ nav a:hover, nav li span:hover {
 }
 
 .search input[type="submit"] {
+  color: white;
+  background: black;
   padding: 0.5rem 1rem;
   border: 1px solid black;
   border-radius: 0 3px 3px 0;
