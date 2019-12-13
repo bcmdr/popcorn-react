@@ -1,9 +1,9 @@
 import React, {Fragment, useState, useEffect, useCallback} from 'react';
 
-import firebase from 'firebase/app';
+import firebase from './Firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
-import firebaseConfig from './config/firebaseConfig'
+import { db } from './db'
 
 import MovieSearch from './components/MovieSearch'
 import MovieCover from './components/MovieCover'
@@ -14,36 +14,7 @@ import './App.css';
 function App() {
   const [user, setUser] = useState(null);
   const [movieListSource, setMovieListSource] = useState(null);
-  const [db, setDb] = useState(null);
   const [userStatuses, setUserStatuses] = useState({});
-
-  const fetchUserStatuses = useCallback(async () => {
-    const userRef = user && db.collection(`${user.uid}`);
-    if (userRef) {
-      let userStatuses = {};
-      const snap = await userRef.get();
-      snap && snap.forEach(result => {
-        userStatuses[result.id] = result.data();
-      });
-      setUserStatuses(userStatuses);
-    }
-  }, [db, user])
-
-  useEffect(() => {
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-
-    firebase.auth().onAuthStateChanged(function(user) {
-      setUser(user);
-    });
-
-    setDb(firebase.firestore());
-
-    fetchUserStatuses();
-
-  }, [setDb, db, user, movieListSource, fetchUserStatuses]);
 
   const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -53,30 +24,68 @@ function App() {
     firebase.auth().signOut();
   }
 
-  const show = async (event, status) => {
-    event.preventDefault();
-    let results = []
-    const userRef = user && db.collection(`${user.uid}`);
-    if (!userRef) return 
+  const filterByStatus = useCallback(async (event, status) => {
+    console.log('fetching')
+    event && event.preventDefault();
+    let results = [];
+    let index = 0;
+    const userRef = user && db.collection(`${user.uid}`).where(status, "==", true);
+    if (!userRef) return;
     const snap = await userRef.get();
-    snap && snap.forEach(async result => {
+    if (!snap) return;
+    if (snap.empty) setMovieListSource(results);
+    snap.forEach(async (result) => {
       if (result.data()[status]) {
         const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
         const movieDoc = await movieInfoRef.get();
         movieDoc.exists && results.push(movieDoc.data());
+      }
+      if (index === snap.size - 1) {
         setMovieListSource(results);
-      }});
-  }
+      }
+      index += 1;
+    });
+  }, [user]);
 
+  useEffect(() => {
+    const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(()=> {
+    const fetchUserStatuses = async () => {
+      if (!user) return;
+      const userRef = user && db.collection(`${user.uid}`);
+      if (userRef) {
+        let userStatuses = {};
+        const snap = await userRef.get();
+        snap && snap.forEach(result => {
+          userStatuses[result.id] = result.data();
+        });
+        console.log(userStatuses)
+        setUserStatuses(userStatuses);
+      }
+    }
+    fetchUserStatuses();
+  }, [user]);
+
+  useEffect(() => {
+    const showAll = async () => {
+      await filterByStatus(null, 'anyStatus');
+    }
+    showAll();
+  }, [filterByStatus])
 
   return (
     <Fragment>
       <header>
         <nav>
           <li><a href="/">PopCorn</a></li>
-          <li><span onClick={(event) => show(event, 'interested')}>Interested</span></li>
-          <li><span onClick={(event) => show(event, 'seen')}>Seen</span></li>
-          <li><span onClick={(event) => show(event, 'favourite')}>Favourite</span></li>
+          <li><span onClick={(event) => filterByStatus(event, 'interested')}>Interested</span></li>
+          <li><span onClick={(event) => filterByStatus(event, 'seen')}>Seen</span></li>
+          <li><span onClick={(event) => filterByStatus(event, 'favourite')}>Favourite</span></li>
         </nav>
         <MovieSearch setMovieListSource={setMovieListSource}/>
         <div className="login">
@@ -87,12 +96,11 @@ function App() {
         </div>
       </header>
       <main className="covers">
-        {movieListSource && movieListSource.map((result, index) => (
+        {movieListSource && movieListSource.map((result) => (
           <MovieCover 
             key={result.id}
             user={user}
             result={result}
-            db={db}
             initialStatuses={userStatuses[result.id]}
           />
         ))}
