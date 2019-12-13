@@ -15,19 +15,22 @@ function MovieCover({ user, result, initialStatuses }) {
   const updateStatuses = useCallback(async (statuses) => {
     if (!user) return;
 
-    console.log(statuses)
-
-    const anyStatus = statuses.interested || statuses.favourite || statuses.seen
+    const anyStatus = statuses.interested || statuses.favourite || statuses.seen;
 
     let userMovieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
-    await userMovieRef.set(
-      {
-        id: result.id,
-        anyStatus,
-        ...statuses
-      },
-      { merge: true }
-    );
+
+    if (anyStatus) {    
+      await userMovieRef.set(
+        {
+          id: result.id,
+          anyStatus: statuses.interested || statuses.favourite || statuses.seen,
+          ...statuses
+        }
+      );
+    } else {
+      await userMovieRef.delete()
+    }
+
     
   }, [user, result]);
 

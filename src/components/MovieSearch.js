@@ -16,11 +16,10 @@ const MovieSearch = ({setMovieListSource}) => {
     const resultsResponse = await fetch(`.netlify/functions/tmdbSearch?query=${searchValue}`);
     const results = await resultsResponse.json();
 
-    console.log(results)
     setMovieListSource(results.results)
 
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 
@@ -28,7 +27,7 @@ const MovieSearch = ({setMovieListSource}) => {
     <form onSubmit={handleSubmit} className="search">
       <label htmlFor="searchInput" hidden>Search</label>
       <input id="searchInput" type="text" value={searchValue} onChange={handleInputChange}></input>
-      <input type="submit" value="search"></input>
+      <input type="submit" value="Search"></input>
     </form>
   )
 }

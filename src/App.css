@@ -16,6 +16,11 @@ header {
   padding: 1rem;
 }
 
+header nav {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
 header nav ul {
   padding: none;
   margin: none;
@@ -32,6 +37,18 @@ header a {
   color: inherit;
 }
 
+nav[data-active="anyStatus"] li.anyStatus-link, 
+nav[data-active="interested"] li.interested-link,
+nav[data-active="favourite"] li.favourite-link,
+nav[data-active="seen"] li.seen-link {
+  font-weight: bold;
+}
+
+
+nav li:last-child {
+  border-left: 1px solid black;
+}
+
 nav li span {
   cursor: pointer
 }
@@ -40,11 +57,14 @@ nav a:hover, nav li span:hover {
   text-decoration: underline;
 }
 
-
+.search {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
 
 .search input {
-  font-size: 0.75 rem;
-  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  padding: 0.5rem 0.5rem;
   border: 1px solid black;
   border-radius: 3px 0 0 3px;
 }
