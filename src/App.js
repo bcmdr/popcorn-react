@@ -15,6 +15,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [movieListSource, setMovieListSource] = useState(null);
   const [userStatuses, setUserStatuses] = useState({});
+  const [statusFilter, setStatusFilter] = null;
 
   const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
