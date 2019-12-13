@@ -15,7 +15,6 @@ function App() {
   const [user, setUser] = useState(null);
   const [movieListSource, setMovieListSource] = useState(null);
   const [userStatuses, setUserStatuses] = useState({});
-  const [statusFilter, setStatusFilter] = null;
 
   const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -26,6 +25,7 @@ function App() {
   }
 
   const filterByStatus = useCallback(async (event, status) => {
+    if (!user) return;
     console.log('fetching')
     event && event.preventDefault();
     let results = [];
