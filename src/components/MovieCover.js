@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { db } from "../db"
 
 function MovieCover({ user, result, initialStatuses }) {
@@ -42,16 +42,13 @@ function MovieCover({ user, result, initialStatuses }) {
     saveMovie();
   };
 
-  // useEffect(() => {
-  //   console.log('effect3')
-  //   if (interacted) {
-
-  //   }
-  // }, [interacted, saveMovie, updateStatuses]);
+  useEffect(() => {
+    console.log(result)
+  }, [result]);
 
   return (
     <div className="cover">
-      <h3 className="title">{result.title}</h3>
+      <h3 className="title">{result.title} <span class="release-year">({result.release_date.split('-')[0]})</span></h3>
       {result.poster_path ? (
         // https://developers.themoviedb.org/3/configuration/get-api-configuration
         <img
