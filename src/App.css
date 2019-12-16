@@ -1,5 +1,6 @@
 :root {
   --shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  --red: rgb(185, 27, 27);
 }
 
 body {
@@ -20,6 +21,7 @@ header {
   background: #111;
   box-shadow: var(--shadow);
   background-color: #111;
+  border-bottom: 5px solid var(--red);
 }
 
 header nav {
@@ -43,6 +45,15 @@ header a {
   color: inherit;
 }
 
+header .login {
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  justify-content: flex-end;
+  background: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 3px;
+}
+
 nav[data-active="anyStatus"] li.anyStatus-link, 
 nav[data-active="interested"] li.interested-link,
 nav[data-active="favourite"] li.favourite-link,
@@ -52,12 +63,6 @@ nav[data-active="seen"] li.seen-link {
 }
 
 nav li:nth-child(2) {
-  border-left: 1px solid #333;
-  padding-left: 0.5rem;
-}
-
-
-nav li:last-child {
   border-left: 1px solid #333;
   padding-left: 0.5rem;
 }
@@ -72,9 +77,10 @@ nav a:hover, nav li span:hover {
 
 .search {
   margin-bottom: 1rem;
+  margin-right: 1rem;
   display: flex;
   flex-grow: 1;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .search input {
@@ -95,7 +101,7 @@ nav a:hover, nav li span:hover {
 
 .search input[type="submit"] {
   border-radius: 0 3px 3px 0;
-  background: rgb(185, 27, 27);
+  background: var(--red);
 }
 
 main {

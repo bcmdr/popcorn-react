@@ -118,17 +118,15 @@ function App() {
               </li>
             </>
           }
-          <li>
-            <div className="login">
-              {user ? (
-                <span onClick={handleLogout}>Logout</span>
-              ) : (
-                <span onClick={handleLogin}>Login</span>
-              )}
-            </div>
-          </li>
         </nav>
         <MovieSearch setMovieListSource={setMovieListSource} />
+        <div className="login">
+          {user ? (
+            <span onClick={handleLogout}>Logout</span>
+          ) : (
+            <span onClick={handleLogin}>Login</span>
+          )}
+        </div>
       </header>
       <main>
         {!user && !movieListSource &&
