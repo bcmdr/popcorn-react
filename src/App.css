@@ -1,5 +1,5 @@
 :root {
-  --shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  --shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
 }
 
 body {
@@ -10,14 +10,16 @@ body {
 }
 
 header {
+  color: white;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
   padding: 1rem;
   padding-bottom: 0;
-  background: white;
+  background: #111;
   box-shadow: var(--shadow);
+  background-color: #111;
 }
 
 header nav {
@@ -46,21 +48,22 @@ nav[data-active="interested"] li.interested-link,
 nav[data-active="favourite"] li.favourite-link,
 nav[data-active="seen"] li.seen-link {
   font-weight: bold;
+  transform: scale(1.05);
 }
 
 nav li:nth-child(2) {
-  border-left: 1px solid black;
+  border-left: 1px solid #333;
   padding-left: 0.5rem;
 }
 
 
 nav li:last-child {
-  border-left: 1px solid black;
+  border-left: 1px solid #333;
   padding-left: 0.5rem;
 }
 
 nav li span {
-  cursor: pointer
+  cursor: pointer;
 }
 
 nav a:hover, nav li span:hover {
@@ -77,7 +80,7 @@ nav a:hover, nav li span:hover {
 .search input {
   font-size: 0.75rem;
   padding: 0.5rem 0.5rem;
-  border: 1px solid black;
+  border: none;
   border-radius: 3px 0 0 3px;
 }
 
@@ -87,10 +90,12 @@ nav a:hover, nav li span:hover {
   padding: 0.5rem 1rem;
   border: 1px solid black;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .search input[type="submit"] {
   border-radius: 0 3px 3px 0;
+  background: rgb(185, 27, 27);
 }
 
 main {
@@ -99,11 +104,9 @@ main {
 }
 
 .welcome {
+  color: black;
   padding: 1rem;
   text-align: center;
-  background: white;
-  border-radius: 0.5rem;
-  box-shadow: var(--shadow);
 }
 
 .welcome button {

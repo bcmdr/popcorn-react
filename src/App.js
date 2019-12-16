@@ -99,7 +99,7 @@ function App() {
       <header>
         <nav data-active={activeStatus}>
           <li className="anyStatus-link">
-            <a href="/">PopCorn</a>
+            <span onClick={event => filterByStatus(event, "anyStatus")}>PopCorn</span>
           </li>
           {user && 
             <>
