@@ -131,7 +131,7 @@ function App() {
       <main>
         {!user && !movieListSource &&
           <section className="welcome">
-            <h1>Track Your Movies</h1>
+            <h1>Track Movies</h1>
             <p>Interested • Seen • Favourite</p>
             <button className="primary-button" onClick={handleLogin}>Login with Google</button>
           </section>
