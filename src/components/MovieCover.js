@@ -5,11 +5,13 @@ function MovieCover({ user, result, initialStatuses }) {
   const [statuses, setStatuses] = useState(initialStatuses);
   const [movieSaved, setMovieSaved] = useState(false);
 
-  const saveMovie = useCallback(() => {
+  const saveMovie = useCallback(async () => {
     if (movieSaved) return;
     window.localStorage.setItem(`movie-${result.id}`, JSON.stringify(result));
     let movieInfoRef = db.collection("movies").doc(`${result.id}`);
-    if (!movieInfoRef.exists) movieInfoRef.set(result);
+    if (!movieInfoRef.exists) {
+      await movieInfoRef.set(result);
+    }
     setMovieSaved(true);
   }, [movieSaved, result]);
 

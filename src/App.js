@@ -34,6 +34,7 @@ function App() {
       let results = [];
       const userRef = db.collection(`${user.uid}`).where(status, "==", true);
       if (!userRef) return;
+      console.log('getting');
       const snap = await userRef.get();
       if (!snap) return;
       if (snap.empty) setMovieListSource([]);
@@ -46,6 +47,7 @@ function App() {
           } else {
             console.log('Fetching movie data.');
             const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
+            console.log('getting');
             const movieDoc = await movieInfoRef.get();
             if (movieDoc.exists) {
               const movieData = movieDoc.data();
