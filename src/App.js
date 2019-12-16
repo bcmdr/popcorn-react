@@ -120,13 +120,13 @@ function App() {
           }
         </nav>
         <MovieSearch setMovieListSource={setMovieListSource} />
-        <div className="login">
+        <button className="login">
           {user ? (
             <span onClick={handleLogout}>Logout</span>
           ) : (
             <span onClick={handleLogin}>Login</span>
           )}
-        </div>
+        </button>
       </header>
       <main>
         {!user && !movieListSource &&

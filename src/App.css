@@ -46,6 +46,8 @@ header a {
 }
 
 header .login {
+  color: white;
+  border: none;
   font-size: 0.8rem;
   margin-bottom: 1rem;
   justify-content: flex-end;
