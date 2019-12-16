@@ -32,18 +32,27 @@ function App() {
       event && event.preventDefault();
       setActiveStatus(status);
       let results = [];
-      let index = 0;
-      const userRef =
-        user && db.collection(`${user.uid}`).where(status, "==", true);
+      const userRef = db.collection(`${user.uid}`).where(status, "==", true);
       if (!userRef) return;
       const snap = await userRef.get();
       if (!snap) return;
-      if (snap.empty) setMovieListSource(results);
+      if (snap.empty) setMovieListSource([]);
+      let index = 0;
       snap.forEach(async result => {
         if (result.data()[status]) {
-          const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
-          const movieDoc = await movieInfoRef.get();
-          movieDoc.exists && results.push(movieDoc.data());
+          let localStorageResult = window.localStorage.getItem(`movie-${result.id}`);
+          if (localStorageResult) {
+            results.push(JSON.parse(localStorageResult));
+          } else {
+            console.log('Fetching movie data.');
+            const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
+            const movieDoc = await movieInfoRef.get();
+            if (movieDoc.exists) {
+              const movieData = movieDoc.data();
+              window.localStorage.setItem(`movie-${result.id}`, JSON.stringify(movieData));
+              results.push(movieData); 
+            }
+          }
         }
         if (index === snap.size - 1) {
           setMovieListSource(results);

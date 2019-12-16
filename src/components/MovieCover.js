@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { db } from "../db"
 
 function MovieCover({ user, result, initialStatuses }) {
@@ -7,6 +7,7 @@ function MovieCover({ user, result, initialStatuses }) {
 
   const saveMovie = useCallback(() => {
     if (movieSaved) return;
+    window.localStorage.setItem(`movie-${result.id}`, JSON.stringify(result));
     let movieInfoRef = db.collection("movies").doc(`${result.id}`);
     if (!movieInfoRef.exists) movieInfoRef.set(result);
     setMovieSaved(true);
@@ -14,11 +15,8 @@ function MovieCover({ user, result, initialStatuses }) {
 
   const updateStatuses = useCallback(async (statuses) => {
     if (!user) return;
-
     const anyStatus = statuses.interested || statuses.favourite || statuses.seen;
-
     let userMovieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
-
     if (anyStatus) {    
       await userMovieRef.set(
         {
@@ -42,13 +40,9 @@ function MovieCover({ user, result, initialStatuses }) {
     saveMovie();
   };
 
-  useEffect(() => {
-    console.log(result)
-  }, [result]);
-
   return (
     <div className="cover">
-      <h3 className="title">{result.title} <span class="release-year">({result.release_date.split('-')[0]})</span></h3>
+      <h3 className="title">{result.title} <span className="release-year">({result.release_date.split('-')[0]})</span></h3>
       {result.poster_path ? (
         // https://developers.themoviedb.org/3/configuration/get-api-configuration
         <img
