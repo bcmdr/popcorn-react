@@ -157,6 +157,9 @@ main {
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-gap: 0.75rem;
   padding-top: 0;
+  animation-name: fadeIn;
+  animation-duration: 0.5s;
+
 }
 
 .cover {
