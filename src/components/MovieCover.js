@@ -7,7 +7,7 @@ function MovieCover({ user, result, initialStatuses }) {
 
   const saveMovie = useCallback(async () => {
     if (movieSaved) return;
-    window.localStorage.setItem(`movie-${result.id}`, JSON.stringify(result));
+    window.sessionStorage.setItem(`movie-${result.id}`, JSON.stringify(result));
     let movieInfoRef = db.collection("movies").doc(`${result.id}`);
     if (!movieInfoRef.exists) {
       await movieInfoRef.set(result);
@@ -15,30 +15,27 @@ function MovieCover({ user, result, initialStatuses }) {
     setMovieSaved(true);
   }, [movieSaved, result]);
 
-  const updateStatuses = useCallback(async (statuses) => {
+  const saveStatuses = useCallback(async (statuses) => {
     if (!user) return;
     const anyStatus = statuses.interested || statuses.favourite || statuses.seen;
     let userMovieRef = db.collection(`${user.uid}`).doc(`${result.id}`);
-    if (anyStatus) {    
-      await userMovieRef.set(
-        {
-          id: result.id,
-          anyStatus: statuses.interested || statuses.favourite || statuses.seen,
-          ...statuses
-        }
-      );
+    if (anyStatus) { 
+      let newUserMovie = {
+        id: result.id,
+        anyStatus: statuses.interested || statuses.favourite || statuses.seen,
+        ...statuses
+      } 
+      await userMovieRef.set(newUserMovie);
     } else {
       await userMovieRef.delete()
     }
-
-    
   }, [user, result]);
 
   const handleStatus = status => {
     let newStatuses = { ...statuses };
     newStatuses[status] = statuses ? !statuses[status] : true;
     setStatuses(newStatuses);
-    updateStatuses(newStatuses);
+    saveStatuses(newStatuses);
     saveMovie();
   };
 

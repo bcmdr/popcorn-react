@@ -34,24 +34,22 @@ function App() {
       let results = [];
       const userRef = db.collection(`${user.uid}`).where(status, "==", true);
       if (!userRef) return;
-      console.log('getting');
       const snap = await userRef.get();
       if (!snap) return;
       if (snap.empty) setMovieListSource([]);
       let index = 0;
       snap.forEach(async result => {
         if (result.data()[status]) {
-          let localStorageResult = window.localStorage.getItem(`movie-${result.id}`);
-          if (localStorageResult) {
-            results.push(JSON.parse(localStorageResult));
+          let sessionStorageResult = window.sessionStorage.getItem(`movie-${result.id}`);
+          if (sessionStorageResult) {
+            results.push(JSON.parse(sessionStorageResult));
           } else {
             console.log('Fetching movie data.');
             const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
-            console.log('getting');
             const movieDoc = await movieInfoRef.get();
             if (movieDoc.exists) {
               const movieData = movieDoc.data();
-              window.localStorage.setItem(`movie-${result.id}`, JSON.stringify(movieData));
+              window.sessionStorage.setItem(`movie-${result.id}`, JSON.stringify(movieData));
               results.push(movieData); 
             }
           }
@@ -138,6 +136,11 @@ function App() {
             <button className="primary-button" onClick={handleLogin}>Login with Google</button>
           </section>
         }
+        {user && !movieListSource &&
+          <section className="welcome">
+            <p>Loading...</p>
+          </section>
+        }
         {movieListSource &&
           <section className="covers">
             {movieListSource.map(result => (
@@ -151,6 +154,7 @@ function App() {
           </section>
         }
       </main>
+      <footer>Powered by <span className="movieDb">The Movie DB</span></footer>
     </Fragment>
   );
 }

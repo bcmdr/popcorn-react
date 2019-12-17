@@ -9,6 +9,7 @@ const MovieSearch = ({setMovieListSource}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!searchValue) return;
 
     try {
     // const configResponse = await fetch(`https://api.themoviedb.org/3/configuration?api_key=${tmdb.key}`)

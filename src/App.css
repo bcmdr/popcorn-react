@@ -3,6 +3,11 @@
   --red: rgb(185, 27, 27);
 }
 
+@keyframes fadeIn {
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+} 
+
 body {
   margin: 0;
   padding: 0;
@@ -22,6 +27,8 @@ header {
   box-shadow: var(--shadow);
   background-color: #111;
   border-bottom: 5px solid var(--red);
+  animation-name: fadeIn;
+  animation-duration: 1s;
 }
 
 header nav {
@@ -84,6 +91,9 @@ nav a:hover, nav li span:hover {
   display: flex;
   flex-grow: 1;
   justify-content: flex-start;
+  animation-name: fadeIn;
+  animation-duration: 1s;
+  
 }
 
 .search input {
@@ -110,6 +120,7 @@ nav a:hover, nav li span:hover {
 main {
   padding: 1rem;
   flex-grow: 1;
+  min-height: 100vh;
 }
 
 .welcome {
@@ -141,11 +152,6 @@ main {
   margin-bottom: 2rem;
 }
 
-@keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
-} 
-
 .covers {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -173,6 +179,7 @@ main {
   right: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.8);
+  border-radius: 3px 3px 0 0;
 }
 
 .cover .release-year {
@@ -224,5 +231,11 @@ main {
 }
 
 footer {
-  padding: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: .8rem;
+}
+
+footer .movieDb {
+  color: #01d277;
 }
