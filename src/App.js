@@ -98,35 +98,41 @@ function App() {
     <Fragment>
       <header>
         <nav data-active={activeStatus}>
-          <li className="anyStatus-link">
-            <span onClick={event => filterByStatus(event, "anyStatus")}>PopCorn</span>
-          </li>
-          {user && 
-            <>
-              <li className="interested-link">
-                <span onClick={event => filterByStatus(event, "interested")}>
-                  Interested
-                </span>
-              </li>
-              <li className="seen-link">
-                <span onClick={event => filterByStatus(event, "seen")}>Seen</span>
-              </li>
-              <li className="favourite-link">
-                <span onClick={event => filterByStatus(event, "favourite")}>
-                  Favourite
-                </span>
-              </li>
-            </>
-          }
+          <ul>
+            <li className="anyStatus-link">
+              <span onClick={event => filterByStatus(event, "anyStatus")}>PopCorn</span>
+            </li>
+            {user && 
+              <div>
+                <li className="interested-link">
+                  <span onClick={event => filterByStatus(event, "interested")}>
+                    Interested
+                  </span>
+                </li>
+                <li className="seen-link">
+                  <span onClick={event => filterByStatus(event, "seen")}>Seen</span>
+                </li>
+                <li className="favourite-link">
+                  <span onClick={event => filterByStatus(event, "favourite")}>
+                    Favourite
+                  </span>
+                </li>
+              </div>
+            }
+          </ul>
         </nav>
-        <MovieSearch setMovieListSource={setMovieListSource} />
-        <button className="login">
-          {user ? (
-            <span onClick={handleLogout}>Logout</span>
-          ) : (
-            <span onClick={handleLogin}>Login</span>
-          )}
-        </button>
+        <div className="searchContainer">
+          <MovieSearch setMovieListSource={setMovieListSource} />
+        </div>
+        <div className="loginContainer">
+          <button className="login">
+            {user ? (
+              <span onClick={handleLogout}>Logout</span>
+            ) : (
+              <span onClick={handleLogin}>Login</span>
+            )}
+          </button>
+        </div>
       </header>
       <main>
         {!user && !movieListSource &&
