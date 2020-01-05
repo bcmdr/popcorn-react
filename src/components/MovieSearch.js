@@ -27,7 +27,7 @@ const MovieSearch = ({setMovieListSource}) => {
   return (
     <form onSubmit={handleSubmit} className="search">
       <label htmlFor="searchInput" hidden>Search</label>
-      <input id="searchInput" type="text" value={searchValue} onChange={handleInputChange}></input>
+      <input id="searchInput" type="text" placeholder="Movie Title..." value={searchValue} onChange={handleInputChange}></input>
       <input className="primary-button" type="submit" value="Search"></input>
     </form>
   )

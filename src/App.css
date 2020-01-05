@@ -112,11 +112,12 @@ nav a:hover, nav li span:hover {
 
 .loginContainer {
   position: absolute;
-  top: 0.7rem;
+  top: 1rem;
   right: 1rem;
 }
 
 .loginContainer .profile-picture {
+  margin-top: -0.2rem;
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 3px;
@@ -143,10 +144,10 @@ nav a:hover, nav li span:hover {
 
 .dropdown .dropdown__content::before {
   content: '';
-  height: 0.5rem;
+  height: 1rem;
   width: 100%;
   position: absolute;
-  top: -0.5rem;
+  top: -1rem;
   right: 0;
 }
 
