@@ -44,7 +44,6 @@ function App() {
           if (sessionStorageResult) {
             results.push(JSON.parse(sessionStorageResult));
           } else {
-            console.log('Fetching movie data.');
             const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
             const movieDoc = await movieInfoRef.get();
             if (movieDoc.exists) {
@@ -93,12 +92,6 @@ function App() {
     };
     showAll();
   }, [filterByStatus]);
-
-  useEffect(() => {
-    if (user) {
-      console.log(user);
-    }
-  })
 
   return (
     <Fragment>
