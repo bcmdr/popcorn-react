@@ -21,8 +21,8 @@ header {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
-  padding: 1rem;
-  padding-bottom: 0;
+  padding: 0.5rem;
+  padding-right: calc(40px + 1rem);
   background: #111;
   box-shadow: var(--shadow);
   background-color: #111;
@@ -32,8 +32,7 @@ header {
 }
 
 header nav {
-  margin-right: 1rem;
-  margin-bottom: 1rem;
+  margin: 0.5rem;
 }
 
 header nav ul {
@@ -56,24 +55,21 @@ header a {
   color: inherit;
 }
 
-header .loginContainer, header .searchContainter {
+.nav-actions {
   display: flex;
   flex-grow: 1;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
 }
 
-header .login {
+header button {
   color: white;
   border: none;
   font-size: 0.8rem;
-  margin-bottom: 1rem;
-  margin-left: 1rem;
-  justify-content: flex-end;
   background: #333;
   padding: 0.5rem 1rem;
   border-radius: 3px;
   cursor: pointer;
-  
 }
 
 nav[data-active="anyStatus"] li.anyStatus-link, 
@@ -98,13 +94,13 @@ nav a:hover, nav li span:hover {
   text-decoration: underline;
 }
 
+.searchContainer {
+  margin: 0.5rem;
+}
+
 .search {
-  display: flex;
-  flex-grow: 1;
-  justify-content: flex-start;
   animation-name: fadeIn;
   animation-duration: 1s;
-  margin-bottom: 1rem;
 }
 
 .search input {
@@ -112,6 +108,52 @@ nav a:hover, nav li span:hover {
   padding: 0.5rem 0.5rem;
   border: none;
   border-radius: 3px 0 0 3px;
+}
+
+.loginContainer {
+  position: absolute;
+  top: 0.7rem;
+  right: 1rem;
+}
+
+.loginContainer .profile-picture {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.dropdown {
+  position: relative;
+  vertical-align: top;
+}
+
+.dropdown .dropdown__content {
+  visibility: hidden;
+  position: absolute;
+  background: #333;
+  right: 0;
+  top: 3rem;
+  /* padding: 0.5rem 1rem; */
+  z-index: 1000;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.8em
+}
+
+.dropdown .dropdown__content::before {
+  content: '';
+  height: 0.5rem;
+  width: 100%;
+  position: absolute;
+  top: -0.5rem;
+  right: 0;
+}
+
+.dropdown:hover .dropdown__content,
+.dropdown__content:hover {
+  visibility: visible;
+  display: block;
 }
 
 .primary-button {
@@ -122,6 +164,7 @@ nav a:hover, nav li span:hover {
   border-radius: 3px;
   cursor: pointer;
 }
+
 
 .search input[type="submit"] {
   border-radius: 0 3px 3px 0;

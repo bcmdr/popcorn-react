@@ -94,6 +94,12 @@ function App() {
     showAll();
   }, [filterByStatus]);
 
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+    }
+  })
+
   return (
     <Fragment>
       <header>
@@ -121,17 +127,22 @@ function App() {
             }
           </ul>
         </nav>
-        <div className="searchContainer">
-          <MovieSearch setMovieListSource={setMovieListSource} />
-        </div>
-        <div className="loginContainer">
-          <button className="login">
-            {user ? (
-              <span onClick={handleLogout}>Logout</span>
-            ) : (
-              <span onClick={handleLogin}>Login</span>
-            )}
-          </button>
+        <div className="nav-actions">
+          <div className="searchContainer">
+            <MovieSearch setMovieListSource={setMovieListSource} />
+          </div>
+          <div className="loginContainer">
+              {user ? (
+                <div className="dropdown">
+                  <img className="profile-picture" src={user.photoURL} alt="profile"></img>
+                  <div className="dropdown__content">
+                    <button className="logout" onClick={handleLogout}>Logout</button>
+                  </div>
+                </div>
+              ) : (
+                <button className="login" onClick={handleLogin}>Login</button>
+              )}
+          </div>
         </div>
       </header>
       <main>
