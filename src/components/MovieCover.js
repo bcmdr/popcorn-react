@@ -34,6 +34,12 @@ function MovieCover({ user, result, initialStatuses }) {
   const handleStatus = status => {
     let newStatuses = { ...statuses };
     newStatuses[status] = statuses ? !statuses[status] : true;
+    if (status === "favourite" && newStatuses["favourite"] === true) {
+      newStatuses["seen"] = true;
+    }
+    if (status === "seen" && newStatuses["seen"] === false) {
+      newStatuses["favourite"] = false;
+    }
     setStatuses(newStatuses);
     saveStatuses(newStatuses);
     saveMovie();
@@ -41,7 +47,7 @@ function MovieCover({ user, result, initialStatuses }) {
 
   return (
     <div className="cover">
-      <h3 className="title">{result.title} <span className="release-year">({result.release_date.split('-')[0]})</span></h3>
+      <h3 className="title">{result.title} <span className="release-year">{result.release_date && `(${result.release_date.split('-')[0]})`}</span></h3>
       {result.poster_path ? (
         // https://developers.themoviedb.org/3/configuration/get-api-configuration
         <img

@@ -4,9 +4,22 @@
 }
 
 @keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
-} 
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* @keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+} */
 
 body {
   margin: 0;
@@ -28,7 +41,7 @@ header {
   background-color: #111;
   border-bottom: 5px solid var(--red);
   animation-name: fadeIn;
-  animation-duration: 1s;
+  animation-duration: 0.3s;
 }
 
 header nav {
@@ -67,23 +80,21 @@ header button {
   border: none;
   font-size: 0.8rem;
   background: #333;
+  border: 1px solid white;
   padding: 0.5rem 1rem;
   border-radius: 3px;
   cursor: pointer;
 }
 
-nav[data-active="anyStatus"] li.anyStatus-link, 
-nav[data-active="interested"] li.interested-link,
-nav[data-active="favourite"] li.favourite-link,
-nav[data-active="seen"] li.seen-link {
+nav[data-active="interested"] li.interested-link, nav[data-active="favourite"] li.favourite-link, nav[data-active="seen"] li.seen-link {
   font-weight: bold;
   transform: scale(1.05);
 }
 
-nav ul > li:nth-child(1) {
-  border-right: 1px solid #333;
-  padding-right: 0.5rem;
-  margin-right: 0.5rem;
+nav ul>div>li:nth-child(1) {
+  border-left: 1px solid #333;
+  padding-left: 0.5rem;
+  margin-left: 0.5rem;
 }
 
 nav li span {
@@ -100,7 +111,7 @@ nav a:hover, nav li span:hover {
 
 .search {
   animation-name: fadeIn;
-  animation-duration: 1s;
+  animation-duration: 0.3s;
 }
 
 .search input {
@@ -151,13 +162,13 @@ nav a:hover, nav li span:hover {
   right: 0;
 }
 
-.dropdown:hover .dropdown__content,
-.dropdown__content:hover {
+.dropdown:hover .dropdown__content, .dropdown__content:hover {
   visibility: visible;
   display: block;
 }
 
 .primary-button {
+  font-size: 0.8rem;
   color: white;
   background: black;
   padding: 0.5rem 1rem;
@@ -165,7 +176,6 @@ nav a:hover, nav li span:hover {
   border-radius: 3px;
   cursor: pointer;
 }
-
 
 .search input[type="submit"] {
   border-radius: 0 3px 3px 0;
@@ -183,11 +193,11 @@ main {
   padding: 1rem;
   text-align: center;
   animation-name: fadeIn;
-  animation-duration: 1s;
+  animation-duration: 0.3s;
 }
 
 .welcome button {
-  font-size: 1rem;
+  font-size: 0.9rem;
   background: black;
   color: white;
   margin-bottom: 2rem;
@@ -209,12 +219,19 @@ main {
 
 .covers {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
   grid-gap: 0.75rem;
   padding-top: 0;
-  animation-name: fadeIn;
-  animation-duration: 0.5s;
+}
 
+.hidden {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.revealed {
+  animation-name: fadeIn;
+  animation-duration: 0.3s;
 }
 
 .cover {
@@ -296,4 +313,15 @@ footer {
 
 footer .movieDb {
   color: #01d277;
+}
+
+@media only screen and (max-width: 320px) {
+  .home-link.with-user {
+    display: none;
+  }
+  nav ul>div>li:nth-child(1) {
+    border-left: none;
+    padding-left: 0;
+    margin-left: 0;
+  }
 }

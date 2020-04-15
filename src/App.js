@@ -13,9 +13,10 @@ import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [movieListSource, setMovieListSource] = useState(null);
   const [userStatuses, setUserStatuses] = useState({});
-  const [activeStatus, setActiveStatus] = useState("anyStatus")
+  const [activeStatus, setActiveStatus] = useState("interested")
 
   const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider());
@@ -30,6 +31,11 @@ function App() {
     async (event, status) => {
       if (!user) return;
       event && event.preventDefault();
+      let covers = document.querySelector('.covers')
+      if (covers) {
+        covers.classList.remove('revealed');
+        covers.classList.add('hidden');
+      }
       setActiveStatus(status);
       let results = [];
       const userRef = db.collection(`${user.uid}`).where(status, "==", true);
@@ -55,6 +61,11 @@ function App() {
         }
         if (index === snap.size - 1) {
           setMovieListSource(results);
+          let covers = document.querySelector('.covers')
+          if (covers) {
+            covers.classList.remove('hidden')
+            covers.classList.add('revealed');
+          }
         }
         index += 1;
       });
@@ -65,6 +76,7 @@ function App() {
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(function(user) {
       setUser(user);
+      setLoading(false);
     });
     return () => unsubscribe();
   }, []);
@@ -87,10 +99,10 @@ function App() {
   }, [user]);
 
   useEffect(() => {
-    const showAll = async () => {
-      await filterByStatus(null, "anyStatus");
+    const showInterested = async () => {
+      await filterByStatus(null, "interested");
     };
-    showAll();
+    showInterested();
   }, [filterByStatus]);
 
   return (
@@ -98,25 +110,32 @@ function App() {
       <header>
         <nav data-active={activeStatus}>
           <ul>
-            <li className="anyStatus-link">
-              <span onClick={event => filterByStatus(event, "anyStatus")}>PopCorn</span>
-            </li>
+            {!user && 
+              <li className="home-link without-user">
+                <span onClick={event => filterByStatus(event, "interested")}>PopCorn</span>
+              </li>
+            }
             {user && 
-              <div>
-                <li className="interested-link">
-                  <span onClick={event => filterByStatus(event, "interested")}>
-                    Interested
-                  </span>
+              <>
+                <li className="home-link with-user">
+                  <span onClick={event => filterByStatus(event, "interested")}>PopCorn</span>
                 </li>
-                <li className="seen-link">
-                  <span onClick={event => filterByStatus(event, "seen")}>Seen</span>
-                </li>
-                <li className="favourite-link">
-                  <span onClick={event => filterByStatus(event, "favourite")}>
-                    Favourite
-                  </span>
-                </li>
-              </div>
+                <div>
+                  <li className="interested-link">
+                    <span onClick={event => filterByStatus(event, "interested")}>
+                      Interested
+                    </span>
+                  </li>
+                  <li className="seen-link">
+                    <span onClick={event => filterByStatus(event, "seen")}>Seen</span>
+                  </li>
+                  <li className="favourite-link">
+                    <span onClick={event => filterByStatus(event, "favourite")}>
+                      Favourite
+                    </span>
+                  </li>
+                </div>
+              </>
             }
           </ul>
         </nav>
@@ -144,16 +163,11 @@ function App() {
         </div>
       </header>
       <main>
-        {!user && !movieListSource &&
+        {!user && !movieListSource && !loading &&
           <section className="welcome">
             <h1>Track Your Movies</h1>
             <p>Interested • Seen • Favourite</p>
             <button className="primary-button" onClick={handleLogin}>Login with Google</button>
-          </section>
-        }
-        {user && !movieListSource &&
-          <section className="welcome">
-            <p>Loading...</p>
           </section>
         }
         {movieListSource &&
