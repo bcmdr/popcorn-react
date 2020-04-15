@@ -45,18 +45,16 @@ function App() {
       if (snap.empty) setMovieListSource([]);
       let index = 0;
       snap.forEach(async result => {
-        if (result.data()[status]) {
-          let sessionStorageResult = window.sessionStorage.getItem(`movie-${result.id}`);
-          if (sessionStorageResult) {
-            results.push(JSON.parse(sessionStorageResult));
-          } else {
-            const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
-            const movieDoc = await movieInfoRef.get();
-            if (movieDoc.exists) {
-              const movieData = movieDoc.data();
-              window.sessionStorage.setItem(`movie-${result.id}`, JSON.stringify(movieData));
-              results.push(movieData); 
-            }
+        let sessionStorageResult = window.sessionStorage.getItem(`movie-${result.id}`);
+        if (sessionStorageResult) {
+          results.push(JSON.parse(sessionStorageResult));
+        } else {
+          const movieInfoRef = db.collection(`movies`).doc(`${result.id}`);
+          const movieDoc = await movieInfoRef.get();
+          if (movieDoc.exists) {
+            const movieData = movieDoc.data();
+            window.sessionStorage.setItem(`movie-${result.id}`, JSON.stringify(movieData));
+            results.push(movieData); 
           }
         }
         if (index === snap.size - 1) {

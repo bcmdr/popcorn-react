@@ -315,7 +315,7 @@ footer .movieDb {
   color: #01d277;
 }
 
-@media only screen and (max-width: 375px) {
+@media only screen and (max-width: 385px) {
   .home-link.with-user {
     display: none;
   }
