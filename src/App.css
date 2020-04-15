@@ -219,7 +219,7 @@ main {
 
 .covers {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-gap: 0.75rem;
   padding-top: 0;
 }
@@ -315,7 +315,7 @@ footer .movieDb {
   color: #01d277;
 }
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 375px) {
   .home-link.with-user {
     display: none;
   }
@@ -323,5 +323,8 @@ footer .movieDb {
     border-left: none;
     padding-left: 0;
     margin-left: 0;
+  }
+  .covers {
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
   }
 }
