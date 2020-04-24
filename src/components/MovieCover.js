@@ -9,7 +9,8 @@ function MovieCover({ user, result, initialStatuses }) {
     if (movieSaved) return;
     window.sessionStorage.setItem(`movie-${result.id}`, JSON.stringify(result));
     let movieInfoRef = db.collection("movies").doc(`${result.id}`);
-    if (!movieInfoRef.exists) {
+    let movieInfo = movieInfoRef.get();
+    if (!movieInfo.exists) {
       await movieInfoRef.set(result);
     }
     setMovieSaved(true);
